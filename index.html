@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Duck Therapy - Healing & Happiness</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #87CEEB 0%, #FFB6D9 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 20px;
+            animation: backgroundShift 15s ease infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(5deg); }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: bounce 3s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #FF69B4;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #87CEEB;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        .duck {
+            font-size: 3em;
+            animation: waddle 1s ease-in-out infinite;
+        }
+
+        @keyframes waddle {
+            0%, 100% { transform: translateX(0) rotateZ(0deg); }
+            25% { transform: translateX(-5px) rotateZ(-2deg); }
+            75% { transform: translateX(5px) rotateZ(2deg); }
+        }
+
+        /* TAB NAVIGATION */
+        .tab-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+            border-bottom: 3px solid #FFB6D9;
+            padding-bottom: 15px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            background: #FFB6D9;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.5);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #FF69B4, #FFB6D9);
+            transform: scale(1.05);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* GENERAL STYLES */
+        .section-title {
+            font-size: 1.8em;
+            color: #FF69B4;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: bounce 3s ease-in-out infinite;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #FFF0F5, #E6F3FF);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        button {
+            background: linear-gradient(135deg, #FF69B4, #FFB6D9);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.5);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* DUCK TRIVIA */
+        .trivia-difficulty {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .difficulty-btn {
+            padding: 8px 16px;
+            background: #87CEEB;
+            font-size: 0.9em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .difficulty-btn.active {
+            background: #FF69B4;
+        }
+
+        .trivia-card {
+            background: linear-gradient(135deg, #FFF0F5, #E6F3FF);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .trivia-question {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .trivia-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .trivia-option {
+            padding: 12px;
+            background: white;
+            border: 2px solid #FFB6D9;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .trivia-option:hover {
+            background: #FFB6D9;
+            color: white;
+        }
+
+        .trivia-option.correct {
+            background: #90EE90;
+            border-color: #228B22;
+            color: #228B22;
+        }
+
+        .trivia-option.incorrect {
+            background: #FFB6C1;
+            border-color: #FF1493;
+            color: #FF1493;
+        }
+
+        .trivia-score {
+            font-size: 1.2em;
+            color: #FF69B4;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* WOULD YOU RATHER */
+        .rather-question {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .rather-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .rather-btn {
+            padding: 20px;
+            background: linear-gradient(135deg, #87CEEB, #B0E0E6);
+            border: 3px solid #4682B4;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .rather-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(70, 130, 180, 0.5);
+        }
+
+        .rather-count {
+            color: #999;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        /* DUCK WORD GAME */
+        .wordgame-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hidden-word {
+            font-size: 2.5em;
+            letter-spacing: 10px;
+            color: #FF69B4;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-family: monospace;
+        }
+
+        .guess-input {
+            padding: 12px;
+            font-size: 1.1em;
+            border: 2px solid #FFB6D9;
+            border-radius: 10px;
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        .guesses-left {
+            font-size: 1.1em;
+            color: #FF69B4;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .word-feedback {
+            margin-top: 15px;
+            font-size: 1.1em;
+            color: #333;
+            min-height: 30px;
+        }
+
+        .word-feedback.correct {
+            color: #228B22;
+            font-weight: bold;
+        }
+
+        .word-feedback.incorrect {
+            color: #FF1493;
+            font-weight: bold;
+        }
+
+        /* QUOTES */
+        .quote-card {
+            background: linear-gradient(135deg, #FFF0F5, #E6F3FF);
+            border-left: 5px solid #FF69B4;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            font-style: italic;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .quote-author {
+            text-align: right;
+            color: #87CEEB;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* WELLNESS TIPS */
+        .wellness-tip {
+            background: linear-gradient(135deg, #90EE90, #E0FFE0);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #228B22;
+        }
+
+        .wellness-tip-title {
+            font-weight: bold;
+            color: #228B22;
+            margin-bottom: 8px;
+        }
+
+        /* BREATHING EXERCISE */
+        .breathing-container {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .breathing-circle {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #FFB6D9, #87CEEB);
+            border-radius: 50%;
+            margin: 30px auto;
+            animation: breathe 8s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.5);
+        }
+
+        @keyframes breathe {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.3); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        .breathing-instruction {
+            font-size: 1.2em;
+            color: #333;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        /* BUCKET LIST */
+        .bucket-list-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .bucket-list-input input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #FFB6D9;
+            border-radius: 10px;
+            font-size: 1em;
+        }
+
+        .bucket-item {
+            background: linear-gradient(135deg, #FFF0F5, #E6F3FF);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bucket-item.completed {
+            background: linear-gradient(135deg, #90EE90, #E0FFE0);
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .bucket-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .delete-btn {
+            background: #FF6B6B;
+            padding: 8px 12px;
+            font-size: 0.8em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* PROGRESS MILESTONE */
+        .progress-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .days-counter {
+            font-size: 3em;
+            color: #FF69B4;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .days-label {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .achievement-badges {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .badge.unlocked {
+            opacity: 1;
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(255, 215, 0, 0.5);
+        }
+
+        /* CREATIVE PROMPTS */
+        .prompt-card {
+            background: linear-gradient(135deg, #FFE4E1, #F0E6FF);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 5px solid #9370DB;
+        }
+
+        .prompt-text {
+            font-size: 1.1em;
+            color: #333;
+            font-style: italic;
+        }
+
+        /* PLAYLIST RECOMMENDATIONS */
+        .playlist-item {
+            background: linear-gradient(135deg, #87CEEB, #B0E0E6);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .playlist-link {
+            background: #4682B4;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9em;
+        }
+
+        .playlist-link:hover {
+            background: #36648B;
+        }
+
+        /* FUNNY FEED */
+        .feed-item {
+            background: linear-gradient(135deg, #FFF0F5, #E6F3FF);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            border-left: 5px solid #FF69B4;
+        }
+
+        .feed-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .feed-content {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* JOKES & AFFIRMATIONS */
+        .joke-card, .affirmation-card {
+            background: linear-gradient(135deg, #FFF0F5, #E6F3FF);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+            color: #333;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .joke-card:hover, .affirmation-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .punchline {
+            color: #FF69B4;
+            font-style: italic;
+        }
+
+        /* CLICKER GAME */
+        .clicker-container {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .big-duck-btn {
+            font-size: 5em;
+            background: none;
+            border: none;
+            cursor: pointer;
+            animation: waddle 1s ease-in-out infinite;
+            transition: transform 0.1s;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .big-duck-btn:active {
+            transform: scale(0.95);
+        }
+
+        .joy-meter {
+            width: 100%;
+            height: 40px;
+            background: #eee;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 20px 0;
+            border: 3px solid #FFB6D9;
+        }
+
+        .joy-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF69B4, #FFB6D9);
+            width: 0%;
+            transition: width 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        /* MEMORY GAME */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #FFB6D9, #87CEEB);
+            border: 3px solid #FF69B4;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .memory-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .memory-card.flipped {
+            background: white;
+        }
+
+        .memory-card.matched {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        .game-stats {
+            text-align: center;
+            color: #FF69B4;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        /* HEART PARTICLES */
+        .heart-particle {
+            position: fixed;
+            pointer-events: none;
+            animation: floatUp 2s ease-out forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-200px) translateX(100px) scale(0); opacity: 0; }
+        }
+
+        /* MILESTONE ANIMATION */
+        .milestone {
+            animation: pulse 0.6s ease-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* RESPONSIVE DESIGN */
+        .responsive {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .trivia-options, .rather-options {
+                grid-template-columns: 1fr;
+            }
+
+            .memory-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .tab-nav {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="duck">🦆</div>
+            <h1>Duck Therapy</h1>
+            <p class="subtitle">Quack your way to happiness, healing & hope!</p>
+        </header>
+
+        <!-- TAB NAVIGATION -->
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('home')">Home</button>
+            <button class="tab-btn" onclick="switchTab('trivia')">Duck Trivia</button>
+            <button class="tab-btn" onclick="switchTab('rather')">Would You Rather</button>
+            <button class="tab-btn" onclick="switchTab('wordgame')">Word Game</button>
+            <button class="tab-btn" onclick="switchTab('jokes')">Jokes & Laughs</button>
+            <button class="tab-btn" onclick="switchTab('quotes')">Wisdom</button>
+            <button class="tab-btn" onclick="switchTab('wellness')">Wellness</button>
+            <button class="tab-btn" onclick="switchTab('breathing')">Breathing</button>
+            <button class="tab-btn" onclick="switchTab('bucket')">Bucket List</button>
+            <button class="tab-btn" onclick="switchTab('prompts')">Creative Prompts</button>
+            <button class="tab-btn" onclick="switchTab('playlist')">Playlists</button>
+            <button class="tab-btn" onclick="switchTab('feed')">Funny Feed</button>
+            <button class="tab-btn" onclick="switchTab('progress')">My Progress</button>
+            <button class="tab-btn" onclick="switchTab('clicker')">Click Joy</button>
+            <button class="tab-btn" onclick="switchTab('memory')">Memory Game</button>
+            <button class="tab-btn" onclick="switchTab('affirmations')">Affirmations</button>
+        </div>
+
+        <!-- HOME TAB -->
+        <div id="home" class="tab-content active">
+            <h2 class="section-title">Welcome to Duck Therapy!</h2>
+            <div class="card">
+                <p style="font-size: 1.1em; color: #333; line-height: 1.8;">
+                    Hey there, friend! Welcome to <strong>Duck Therapy</strong> – your cozy corner of healing, laughter, and genuine support during tough times. Whether you're stuck in a hospital bed, recovering at home, or just need a boost, this little duck sanctuary is here for you.
+                </p>
+                <p style="font-size: 1.1em; color: #333; line-height: 1.8; margin-top: 15px;">
+                    <strong>Challenge your brain</strong> with duck-themed trivia and word games. 
+                    <strong>Laugh out loud</strong> with funny content. <strong>Get inspired</strong> with real wisdom. 
+                    <strong>Breathe easy</strong> with guided exercises. <strong>Get creative</strong> with prompts. 
+                    <strong>Vibe out</strong> to curated playlists. And keep <strong>track of your healing journey</strong> with milestones!
+                </p>
+                <p style="font-size: 1.1em; color: #333; line-height: 1.8; margin-top: 15px;">
+                    Pick a tab above and start healing. One waddle at a time.
+                </p>
+            </div>
+        </div>
+
+        <!-- DUCK TRIVIA TAB -->
+        <div id="trivia" class="tab-content">
+            <h2 class="section-title">Duck Trivia Challenge</h2>
+            <div class="trivia-difficulty">
+                <button class="difficulty-btn active" onclick="setTriviaDifficulty('easy', event)">Easy</button>
+                <button class="difficulty-btn" onclick="setTriviaDifficulty('medium', event)">Medium</button>
+                <button class="difficulty-btn" onclick="setTriviaDifficulty('hard', event)">Hard</button>
+            </div>
+            <div class="trivia-score">Score: <span id="triviaScore">0</span></div>
+            <div class="trivia-question" id="triviaQuestion">Click 'Next' to start!</div>
+            <div class="trivia-options" id="triviaOptions"></div>
+            <button onclick="nextTrivia()">Next Question</button>
+        </div>
+
+        <!-- WOULD YOU RATHER TAB -->
+        <div id="rather" class="tab-content">
+            <h2 class="section-title">Would You Rather?</h2>
+            <div class="trivia-card">
+                <p class="rather-question" id="ratherQuestion">Let's play!</p>
+                <div class="rather-options">
+                    <button class="rather-btn" onclick="recordRather(1); nextRather();">Option A</button>
+                    <button class="rather-btn" onclick="recordRather(2); nextRather();">Option B</button>
+                </div>
+                <p class="rather-count">Choices: <span id="ratherCount">0</span></p>
+            </div>
+        </div>
+
+        <!-- WORD GAME TAB -->
+        <div id="wordgame" class="tab-content">
+            <h2 class="section-title">Duck Word Game</h2>
+            <div class="wordgame-container">
+                <div class="hidden-word" id="hiddenWord"></div>
+                <div>
+                    <input type="text" class="guess-input" id="guessInput" placeholder="Guess a letter" maxlength="1" />
+                    <button onclick="guessLetter()">Guess</button>
+                    <button onclick="resetWordGame()">New Word</button>
+                </div>
+                <div class="guesses-left">Guesses left: <span id="guessesLeft">6</span></div>
+                <div class="word-feedback" id="wordFeedback"></div>
+            </div>
+        </div>
+
+        <!-- JOKES TAB -->
+        <div id="jokes" class="tab-content">
+            <h2 class="section-title">Jokes & Laughs</h2>
+            <div id="jokeContainer" class="responsive"></div>
+            <button onclick="randomJoke()" style="width: 100%; margin-top: 20px;">Tell Me a Random Joke</button>
+        </div>
+
+        <!-- QUOTES TAB -->
+        <div id="quotes" class="tab-content">
+            <h2 class="section-title">Wisdom</h2>
+            <div id="quotesContainer" class="responsive"></div>
+            <button onclick="randomQuote()" style="width: 100%; margin-top: 20px;">Random Quote</button>
+        </div>
+
+        <!-- WELLNESS TAB -->
+        <div id="wellness" class="tab-content">
+            <h2 class="section-title">Wellness Tips</h2>
+            <div id="wellnessContainer" class="responsive"></div>
+        </div>
+
+        <!-- BREATHING TAB -->
+        <div id="breathing" class="tab-content">
+            <h2 class="section-title">Breathing Exercise</h2>
+            <div class="breathing-container">
+                <div class="breathing-circle" id="breathingText">Breathe</div>
+                <div class="breathing-instruction" id="breathingInstruction">Click below to start breathing exercise</div>
+                <button onclick="startBreathing()">Start Breathing</button>
+            </div>
+        </div>
+
+        <!-- BUCKET LIST TAB -->
+        <div id="bucket" class="tab-content">
+            <h2 class="section-title">Bucket List</h2>
+            <div class="bucket-list-input">
+                <input type="text" id="bucketInput" placeholder="Add something to do after recovery..." />
+                <button onclick="addBucketItem()">Add</button>
+            </div>
+            <div id="bucketList"></div>
+        </div>
+
+        <!-- CREATIVE PROMPTS TAB -->
+        <div id="prompts" class="tab-content">
+            <h2 class="section-title">Creative Prompts</h2>
+            <div id="promptsContainer" class="responsive"></div>
+            <button onclick="randomPrompt()" style="width: 100%; margin-top: 20px;">Get Another Prompt</button>
+        </div>
+
+        <!-- PLAYLIST TAB -->
+        <div id="playlist" class="tab-content">
+            <h2 class="section-title">Playlist Recommendations</h2>
+            <div id="playlistContainer" class="responsive"></div>
+        </div>
+
+        <!-- FUNNY FEED TAB -->
+        <div id="feed" class="tab-content">
+            <h2 class="section-title">Funny & Uplifting Feed</h2>
+            <div id="feedContainer" class="responsive"></div>
+        </div>
+
+        <!-- PROGRESS TAB -->
+        <div id="progress" class="tab-content">
+            <h2 class="section-title">Your Healing Journey</h2>
+            <div class="progress-container">
+                <input type="date" id="startDate" style="padding: 10px; border: 2px solid #FFB6D9; border-radius: 10px; margin-bottom: 20px;" />
+                <button onclick="setStartDate()" style="margin-bottom: 20px;">Set Start Date</button>
+                <div class="days-counter" id="daysCounter">0</div>
+                <div class="days-label">days of healing</div>
+                <div class="achievement-badges" id="badgesContainer"></div>
+            </div>
+        </div>
+
+        <!-- CLICKER GAME TAB -->
+        <div id="clicker" class="tab-content">
+            <h2 class="section-title">Click Joy Game</h2>
+            <div class="clicker-container">
+                <p style="color: #333; font-size: 1.1em; margin: 20px 0;">Clicks: <span id="clickCount">0</span></p>
+                <button class="big-duck-btn" onclick="clickDuck(event)">🦆</button>
+                <div class="joy-meter">
+                    <div class="joy-fill" id="joyFill">
+                        <span id="joyPercent">0%</span>
+                    </div>
+                </div>
+                <div id="milestone" style="margin-top: 10px; font-weight: bold; color: #FF69B4;"></div>
+                <button onclick="resetClicker()" style="margin-top: 20px;">Reset</button>
+            </div>
+        </div>
+
+        <!-- MEMORY GAME TAB -->
+        <div id="memory" class="tab-content">
+            <h2 class="section-title">Match the Pairs!</h2>
+            <div style="text-align: center; margin-bottom: 20px;">
+                Time: <span id="memoryTime">0s</span>
+            </div>
+            <div class="memory-grid" id="memoryGrid"></div>
+            <div class="game-stats" id="memoryStats"></div>
+            <button onclick="resetMemoryGame()" style="margin-top: 20px;">New Game</button>
+        </div>
+
+        <!-- AFFIRMATIONS TAB -->
+        <div id="affirmations" class="tab-content">
+            <h2 class="section-title">Affirmations</h2>
+            <div id="affirmationsContainer" class="responsive"></div>
+            <button onclick="randomAffirmation()" style="width: 100%; margin-top: 20px;">Random Affirmation</button>
+        </div>
+    </div>
+
+    <script>
+        // ==== TAB SYSTEM ====
+        function switchTab(tabName) {
+            const contents = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-btn');
+            contents.forEach(content => content.classList.remove('active'));
+            buttons.forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Initialize tab system
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                switchTab(btn.getAttribute('data-tab'));
+            });
+        });
+
+        // ==== DUCK TRIVIA DATA ====
+        const triviaQuestions = {
+            easy: [
+                { q: "What do ducks use to stay warm?", opts: ["Feathers", "Sweaters", "Fire", "Blankets"], ans: 0 },
+                { q: "How many feet does a duck have?", opts: ["2", "3", "4", "6"], ans: 0 },
+                { q: "What sound do ducks make?", opts: ["Meow", "Quack", "Bark", "Moo"], ans: 1 },
+                { q: "Where do ducks live?", opts: ["Trees", "Water", "Mountains", "Deserts"], ans: 1 },
+                { q: "What's a baby duck called?", opts: ["Chick", "Duckling", "Peep", "Infant"], ans: 1 },
+            ],
+            medium: [
+                { q: "Which duck is the fastest?", opts: ["Mallard", "Pintail", "Teal", "Shoveler"], ans: 1 },
+                { q: "Ducks have special feathers that repel what?", opts: ["Sound", "Water", "Bugs", "Wind"], ans: 1 },
+                { q: "How long can a duck hold its breath?", opts: ["5 seconds", "30 seconds", "2 minutes", "10 minutes"], ans: 2 },
+                { q: "Which body part helps ducks dive?", opts: ["Wings", "Beak", "Webbed feet", "Tail"], ans: 2 },
+                { q: "How many species of ducks exist?", opts: ["50", "100", "150+", "200+"], ans: 2 },
+            ],
+            hard: [
+                { q: "What's the scientific family name for ducks?", opts: ["Anatidae", "Accipitridae", "Alcedinidae", "Ardeidae"], ans: 0 },
+                { q: "Ducks have 3 eyelids. What do we call the third?", opts: ["Tertiary", "Nictitating membrane", "Dual lid", "Bonus eye"], ans: 1 },
+                { q: "Male ducks are called drakes. Female ducks are called?", opts: ["Hens", "Does", "Ducks", "Peahens"], ans: 0 },
+                { q: "How deep can some diving ducks go?", opts: ["10 feet", "50 feet", "100+ feet", "200 feet"], ans: 2 },
+                { q: "Which duck has the longest migration?", opts: ["Pintail", "Arctic Tern", "Northern Shoveler", "Garganey"], ans: 1 },
+            ]
+        };
+
+        let triviaIndex = 0;
+        let triviaDifficulty = 'easy';
+        let triviaScore = 0;
+
+        function setTriviaDifficulty(level, event) {
+            triviaDifficulty = level;
+            triviaIndex = 0;
+            triviaScore = 0;
+            document.getElementById('triviaScore').textContent = '0';
+            document.querySelectorAll('.difficulty-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            loadTrivia();
+        }
+
+        function loadTrivia() {
+            const questions = triviaQuestions[triviaDifficulty];
+            const q = questions[triviaIndex];
+            document.getElementById('triviaQuestion').textContent = q.q;
+            const optionsDiv = document.getElementById('triviaOptions');
+            optionsDiv.innerHTML = '';
+            q.opts.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'trivia-option';
+                btn.textContent = opt;
+                btn.onclick = () => selectTrivia(idx, q.ans);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function selectTrivia(selected, correct) {
+            const options = document.querySelectorAll('.trivia-option');
+            options[selected].classList.add(selected === correct ? 'correct' : 'incorrect');
+            options[correct].classList.add('correct');
+            if (selected === correct) {
+                triviaScore++;
+                document.getElementById('triviaScore').textContent = triviaScore;
+                createHeartParticles(event);
+            }
+            document.querySelectorAll('.trivia-option').forEach(opt => opt.style.pointerEvents = 'none');
+        }
+
+        function nextTrivia() {
+            triviaIndex = (triviaIndex + 1) % triviaQuestions[triviaDifficulty].length;
+            loadTrivia();
+            document.querySelectorAll('.trivia-option').forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+                opt.style.pointerEvents = 'auto';
+            });
+        }
+
+        // ==== WOULD YOU RATHER ====
+        const ratherQuestions = [
+            { a: "Have 3 extra duck friends", b: "Get free bread for life" },
+            { a: "Swim in a cozy pond", b: "Fly across the world" },
+            { a: "Quack louder than everyone", b: "Waddle faster than everyone" },
+            { a: "Have golden feathers", b: "Have rainbow feathers" },
+            { a: "Never get cold", b: "Never get tired" },
+            { a: "Talk to all birds", b: "Understand all humans" },
+            { a: "Have the best duck friends forever", b: "Have the best human friends forever" },
+            { a: "Be the funniest duck", b: "Be the wisest duck" },
+        ];
+
+        let ratherIndex = 0;
+        let ratherCount = 0;
+
+        function nextRather() {
+            ratherIndex = (ratherIndex + 1) % ratherQuestions.length;
+            const q = ratherQuestions[ratherIndex];
+            document.getElementById('ratherQuestion').textContent = q.a + " OR " + q.b + "?";
+            document.getElementById('ratherCount').textContent = ratherCount;
+        }
+
+        function recordRather(choice) {
+            ratherCount++;
+            createHeartParticles(event);
+            document.getElementById('ratherCount').textContent = ratherCount;
+        }
+
+        // ==== DUCK WORD GAME ====
+        const wordList = ['DUCK', 'QUACK', 'WADDLE', 'POND', 'WINGS', 'BEAK', 'FEATHER', 'SWIM', 'FLOCK', 'NEST'];
+        let currentWord = "";
+        let guessedLetters = [];
+        let guessesRemaining = 6;
+
+        function resetWordGame() {
+            currentWord = wordList[Math.floor(Math.random() * wordList.length)];
+            guessedLetters = [];
+            guessesRemaining = 6;
+            document.getElementById('guessInput').value = '';
+            document.getElementById('wordFeedback').textContent = '';
+            document.getElementById('wordFeedback').className = 'word-feedback';
+            updateWordDisplay();
+        }
+
+        function updateWordDisplay() {
+            const display = currentWord.split('').map(letter => guessedLetters.includes(letter) ? letter : '_').join(' ');
+            document.getElementById('hiddenWord').textContent = display;
+            document.getElementById('guessesLeft').textContent = guessesRemaining;
+        }
+
+        function guessLetter() {
+            const input = document.getElementById('guessInput').value.toUpperCase();
+            document.getElementById('guessInput').value = '';
+
+            if (!input || guessedLetters.includes(input)) {
+                document.getElementById('wordFeedback').textContent = 'Already guessed or invalid!';
+                document.getElementById('wordFeedback').className = 'word-feedback incorrect';
+                return;
+            }
+
+            guessedLetters.push(input);
+
+            if (currentWord.includes(input)) {
+                document.getElementById('wordFeedback').textContent = 'Correct!';
+                document.getElementById('wordFeedback').className = 'word-feedback correct';
+                createHeartParticles(event);
+            } else {
+                guessesRemaining--;
+                document.getElementById('wordFeedback').textContent = 'Wrong! Try again.';
+                document.getElementById('wordFeedback').className = 'word-feedback incorrect';
+            }
+
+            updateWordDisplay();
+
+            if (!document.getElementById('hiddenWord').textContent.includes('_')) {
+                document.getElementById('wordFeedback').textContent = 'You won! Great job, duck friend!';
+                document.getElementById('wordFeedback').className = 'word-feedback correct';
+            } else if (guessesRemaining === 0) {
+                document.getElementById('wordFeedback').textContent = 'Game Over! The word was: ' + currentWord;
+                document.getElementById('wordFeedback').className = 'word-feedback incorrect';
+            }
+        }
+
+        // ==== JOKES ====
+        const jokes = [
+            { setup: "Why do ducks never get lonely?", punchline: "Because they're always hanging out with their flock!" },
+            { setup: "What do you call a duck that steals?", punchline: "A robber ducky!" },
+            { setup: "Why did the duck go to therapy?", punchline: "Because it had some serious quack-ups!" },
+            { setup: "What's a duck's favorite music?", punchline: "Anything by the Waddle Smiths!" },
+            { setup: "How do ducks stay in shape?", punchline: "They do duck-aerobics!" },
+            { setup: "Why did the duck bring a pencil to the pond?", punchline: "Because it wanted to draw water!" },
+            { setup: "What do you call a duck with a question?", punchline: "Quack-ious!" },
+            { setup: "Why don't ducks ever win at poker?", punchline: "Because they always show their bills!" },
+        ];
+
+        function displayAllJokes() {
+            const container = document.getElementById('jokeContainer');
+            container.innerHTML = '';
+            jokes.forEach((joke, idx) => {
+                const card = document.createElement('div');
+                card.className = 'joke-card';
+                card.innerHTML = `<div><p><strong>${joke.setup}</strong></p><p class="punchline" style="display:none;">${joke.punchline}</p></div>`;
+                card.onclick = () => {
+                    card.querySelector('.punchline').style.display = 'block';
+                };
+                container.appendChild(card);
+            });
+        }
+
+        function randomJoke() {
+            const joke = jokes[Math.floor(Math.random() * jokes.length)];
+            const container = document.getElementById('jokeContainer');
+            container.innerHTML = `
+                <div class="joke-card">
+                    <p><strong>${joke.setup}</strong></p>
+                    <p class="punchline" id="randomPunchline" style="display:none;">${joke.punchline}</p>
+                </div>
+            `;
+            setTimeout(() => {
+                document.getElementById('randomPunchline').style.display = 'block';
+            }, 1500);
+        }
+
+        // ==== AFFIRMATIONS ====
+        const affirmations = [
+            "You are stronger than you think. 🦆",
+            "Every day is a new opportunity to heal. 🦆",
+            "Your body knows how to recover. It's doing an amazing job.",
+            "You deserve kindness—especially from yourself. 🦆",
+            "Healing is not linear, and that's okay.",
+            "You've already overcome so much. Keep going! 🦆",
+            "This pain is temporary. Your strength is forever.",
+            "You are braver than you believe.",
+            "Rest is not laziness. It's self-love.",
+            "You are worthy of happiness and health.",
+        ];
+
+        function displayAllAffirmations() {
+            const container = document.getElementById('affirmationsContainer');
+            container.innerHTML = '';
+            affirmations.forEach(aff => {
+                const card = document.createElement('div');
+                card.className = 'affirmation-card';
+                card.textContent = aff;
+                card.onclick = () => createHeartParticles(event);
+                container.appendChild(card);
+            });
+        }
+
+        function randomAffirmation() {
+            const aff = affirmations[Math.floor(Math.random() * affirmations.length)];
+            const container = document.getElementById('affirmationsContainer');
+            container.innerHTML = `<div class="affirmation-card">${aff}</div>`;
+        }
+
+        // ==== QUOTES ====
+        const quotes = [
+            { text: "The only way out is through.", author: "Robert Frost" },
+            { text: "Healing doesn't mean going back to who you were before the break. It means you grow with the fractures.", author: "Coach Jimmy Goldsmith" },
+            { text: "Health is a state of complete physical, mental and social well-being, not merely the absence of disease.", author: "WHO" },
+            { text: "You are never too old, and it's never too late.", author: "Mae West" },
+            { text: "Your body hears everything your mind says. Stay positive.", author: "Unknown" },
+            { text: "Quack your way through it! 🦆", author: "Duck Wisdom" },
+            { text: "Recovery is not a luxury. It's a necessity.", author: "Warsan Shire" },
+            { text: "Be patient with yourself. Growth takes time.", author: "Unknown" },
+            { text: "Your scars are proof of your strength.", author: "Unknown" },
+            { text: "The greatest glory in living lies not in never falling, but in rising every time we fall.", author: "Nelson Mandela" },
+        ];
+
+        function displayAllQuotes() {
+            const container = document.getElementById('quotesContainer');
+            container.innerHTML = '';
+            quotes.forEach(quote => {
+                const card = document.createElement('div');
+                card.className = 'quote-card';
+                card.innerHTML = `<p>${quote.text}</p><div class="quote-author"> - ${quote.author}</div>`;
+                container.appendChild(card);
+            });
+        }
+
+        function randomQuote() {
+            const quote = quotes[Math.floor(Math.random() * quotes.length)];
+            const container = document.getElementById('quotesContainer');
+            container.innerHTML = `
+                <div class="quote-card">
+                    <p>${quote.text}</p>
+                    <div class="quote-author"> - ${quote.author}</div>
+                </div>
+            `;
+        }
+
+        // ==== WELLNESS TIPS ====
+        const wellnessTips = [
+            { title: "Sleep Hack: The 4-7-8 Breathing", content: "Breathe in for 4 counts, hold for 7, exhale for 8. Repeat 4 times before bed. Scientifically proven to calm your nervous system!" },
+            { title: "Mental Health: The 5 Senses Grounding", content: "Name 5 things you see, 4 you can touch, 3 you hear, 2 you smell, 1 you taste. Instantly grounds you when anxious." },
+            { title: "Funny Health Fact", content: "Laughing burns calories AND boosts your immune system. So watch a funny video—it's literally medicine!" },
+            { title: "Hydration Hack", content: "Drink water like it's your job. Your body is mostly water, and dehydration kills mood, focus, and energy." },
+            { title: "Movement Motivation", content: "Even 10 minutes of walking releases endorphins. Your future self will thank you!" },
+            { title: "Nutrition Note", content: "Gut health = mental health. Eat fiber, probiotics, and colorful veggies. Your brain loves it!" },
+            { title: "Digital Detox", content: "Take 1 hour before bed without screens. Your sleep quality will skyrocket!" },
+            { title: "Vitamin D Boost", content: "Get sunlight for 15-20 minutes daily. It's natural mood medicine!" },
+        ];
+
+        function loadWellness() {
+            const container = document.getElementById('wellnessContainer');
+            container.innerHTML = '';
+            wellnessTips.forEach(tip => {
+                const card = document.createElement('div');
+                card.className = 'wellness-tip';
+                card.innerHTML = `<div class="wellness-tip-title">${tip.title}</div><p>${tip.content}</p>`;
+                container.appendChild(card);
+            });
+        }
+
+        // ==== BREATHING EXERCISE ====
+        let isBreathing = false;
+
+        function startBreathing() {
+            if (isBreathing) return;
+            isBreathing = true;
+
+            const breathingText = document.getElementById('breathingText');
+            const instruction = document.getElementById('breathingInstruction');
+
+            const cycle = ['Breathe In', 'Hold...', 'Breathe Out', 'Hold...'];
+            let cycleIndex = 0;
+            let cycleCount = 0;
+
+            const interval = setInterval(() => {
+                breathingText.textContent = cycle[cycleIndex];
+                instruction.textContent = `Cycle ${cycleCount + 1} of 4`;
+                cycleIndex++;
+
+                if (cycleIndex === 4) {
+                    cycleIndex = 0;
+                    cycleCount++;
+                }
+
+                if (cycleCount === 4) {
+                    clearInterval(interval);
+                    breathingText.textContent = 'Breathe';
+                    instruction.textContent = 'You did great! Take your time.';
+                    isBreathing = false;
+                }
+            }, 2000);
+        }
+
+        // ==== BUCKET LIST ====
+        let bucketList = JSON.parse(localStorage.getItem('bucketList')) || [];
+
+        function renderBucketList() {
+            const container = document.getElementById('bucketList');
+            container.innerHTML = "";
+            bucketList.forEach((item, idx) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `bucket-item ${item.completed ? 'completed' : ''}`;
+                itemDiv.innerHTML = `
+                    <span>${item.text}</span>
+                    <div>
+                        <input type="checkbox" class="bucket-checkbox" ${item.completed ? 'checked' : ''} onchange="toggleBucketItem(${idx})" />
+                        <button class="delete-btn" onclick="deleteBucketItem(${idx})">Delete</button>
+                    </div>
+                `;
+                container.appendChild(itemDiv);
+            });
+        }
+
+        function addBucketItem() {
+            const input = document.getElementById('bucketInput');
+            if (input.value.trim()) {
+                bucketList.push({ text: input.value, completed: false });
+                localStorage.setItem('bucketList', JSON.stringify(bucketList));
+                input.value = "";
+                renderBucketList();
+                createHeartParticles(event);
+            }
+        }
+
+        function toggleBucketItem(idx) {
+            bucketList[idx].completed = !bucketList[idx].completed;
+            localStorage.setItem('bucketList', JSON.stringify(bucketList));
+            renderBucketList();
+        }
+
+        function deleteBucketItem(idx) {
+            bucketList.splice(idx, 1);
+            localStorage.setItem('bucketList', JSON.stringify(bucketList));
+            renderBucketList();
+        }
+
+        // ==== CREATIVE PROMPTS ====
+        const creativePrompts = [
+            "Write about your happiest memory. What made it special?",
+            "If you could redesign your favorite room, what would it look like?",
+            "Draw or describe what healing looks like to you.",
+            "Write a letter to your future self one year from now.",
+            "What's one small thing that brought you joy today? Write about it.",
+            "Imagine your perfect day after recovery. What does it look like?",
+            "Write about someone who inspires you and why.",
+            "If you could give advice to your past self, what would it be?",
+            "Draw a map of your emotional journey so far.",
+            "Write about three things you're grateful for right now.",
+        ];
+
+        function displayAllPrompts() {
+            const container = document.getElementById('promptsContainer');
+            container.innerHTML = "";
+            creativePrompts.forEach(prompt => {
+                const card = document.createElement('div');
+                card.className = 'prompt-card';
+                card.innerHTML = `<p class="prompt-text">${prompt}</p>`;
+                container.appendChild(card);
+            });
+        }
+
+        function randomPrompt() {
+            const prompt = creativePrompts[Math.floor(Math.random() * creativePrompts.length)];
+            const container = document.getElementById('promptsContainer');
+            container.innerHTML = `<div class="prompt-card"><p class="prompt-text">${prompt}</p></div>`;
+        }
+
+        // ==== PLAYLIST RECOMMENDATIONS ====
+        const playlists = [
+            { name: "Calming Music for Ducks", on: "Spotify", link: "https://open.spotify.com/playlist/2Q7cRn3KFG7ng4X9eCiHIT?si=08ddc2b1cd7e4663" },
+            { name: "Zen Radio", on: "Zen Radio", link: "https://www.zenradio.com/" },
+            { name: "Radio Art", on: "RadioArt", link: "https://www.radioart.com/" },
+            { name: "Jazz LoFi Radio", artists: "LoFi Girl", link: "https://www.youtube.com/live/E2vONfzoyRI?si=j5ODqNIupiYQIreN" },
+            { name: "100 Most Uplifting Songs Ever", on: "Spotify", link: "https://open.spotify.com/playlist/5BxqiXdL315dDipxbfKXdr?si=0026f62bfdb9455c" },
+            { name: "Healing Music Therapy", on: "Spotify", link: "https://open.spotify.com/playlist/2d36Zpkvk6We2BrsZdxQQ9?si=n93GIjbFQ5KeTypA0RtMIA" },
+            { name: "Nature Sounds", artists: "Various", link: "https://www.youtube.com/results?search_query=nature+sounds+relaxing" },
+        ];
+
+        function loadPlaylists() {
+            const container = document.getElementById('playlistContainer');
+            container.innerHTML = "";
+            playlists.forEach(pl => {
+                const item = document.createElement('div');
+                item.className = 'playlist-item';
+                item.innerHTML = `
+                    <div>
+                        <strong>${pl.name}</strong><br/>
+                        <span style="font-size: 0.9em; opacity: 0.9;">${pl.artists}</span>
+                    </div>
+                    <a class="playlist-link" href="${pl.link}" target="_blank">Listen</a>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // ==== FUNNY FEED ====
+        const feedItems = [
+            { title: "Why Hospitals Need More Ducks", content: "Studies show that duck therapy reduces stress by 420% (okay, we made that up, but it FEELS true). The scientific community is NOT happy with us." },
+            { title: "Recovery Hack: Laugh Until You Snort", content: "Snorting from laughing means the joke was REALLY good. It's a badge of honor. Wear it proud! 🦆" },
+            { title: "Healing Timeline: Realistic Edition", content: "Week 1: 'I got this!' Week 2: 'Okay, napping is self-care.' Week 3: 'Did I always get tired this fast?' Week 4: 'This is my life now.' Week 5+: 'Wait, I actually feel better!'" },
+            { title: "The Comfort Zone is NOT a Prison", content: "Rest is productive. Naps are medicine. Ice cream is frozen therapy. Fight me. ♟" },
+            { title: "Hot Take: You're Not 'Lazy'", content: "You're RECOVERING. There's a difference. Your body is literally rebuilding itself. That's the hardest job ever. Be proud of yourself!" },
+        ];
+
+        function loadFeed() {
+            const container = document.getElementById('feedContainer');
+            container.innerHTML = '';
+            feedItems.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'feed-item';
+                card.innerHTML = `
+                    <div class="feed-title">${item.title}</div>
+                    <div class="feed-content">${item.content}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ==== PROGRESS MILESTONE ====
+        let startDate = localStorage.getItem('startDate');
+
+        function setStartDate() {
+            const date = document.getElementById('startDate').value;
+            if (date) {
+                localStorage.setItem('startDate', date);
+                startDate = date;
+                updateDaysCounter();
+                updateBadges();
+            }
+        }
+
+        function updateDaysCounter() {
+            if (!startDate) return;
+            const start = new Date(startDate);
+            const today = new Date();
+            const days = Math.floor((today - start) / (1000 * 60 * 60 * 24));
+            document.getElementById('daysCounter').textContent = Math.max(0, days);
+        }
+
+        const badges = [
+            { name: "First Steps", days: 1 },
+            { name: "One Week Warrior", days: 7 },
+            { name: "Two Week Champion", days: 14 },
+            { name: "Month Milestone", days: 30 },
+            { name: "Two Month Star", days: 60 },
+            { name: "Three Month Legend", days: 90 },
+        ];
+
+        function updateBadges() {
+            if (!startDate) {
+                document.getElementById('badgesContainer').innerHTML = '<p style="color: #999;">Set your start date to unlock badges!</p>';
+                return;
+            }
+            const start = new Date(startDate);
+            const today = new Date();
+            const days = Math.floor((today - start) / (1000 * 60 * 60 * 24));
+            const container = document.getElementById('badgesContainer');
+            container.innerHTML = '';
+            badges.forEach(badge => {
+                const badgeDiv = document.createElement('div');
+                badgeDiv.className = `badge ${days >= badge.days ? 'unlocked' : ''}`;
+                badgeDiv.textContent = badge.name;
+                container.appendChild(badgeDiv);
+            });
+        }
+
+        // ==== CLICKER GAME ====
+        let clicks = 0;
+
+        function clickDuck(event) {
+            clicks++;
+            document.getElementById('clickCount').textContent = clicks;
+
+            const joyPercent = Math.min(100, (clicks / 20) * 100);
+            const joyFill = document.getElementById('joyFill');
+            joyFill.style.width = joyPercent + '%';
+            document.getElementById('joyPercent').textContent = Math.round(joyPercent) + '%';
+
+            createHeartParticles(event);
+
+            const milestones = [5, 10, 25, 50, 100];
+            if (milestones.includes(clicks)) {
+                const milestone = document.getElementById('milestone');
+                milestone.textContent = `Milestone: ${clicks} clicks! You're radiating joy!`;
+                milestone.classList.add('milestone');
+                setTimeout(() => milestone.classList.remove('milestone'), 600);
+            }
+        }
+
+        function resetClicker() {
+            clicks = 0;
+            document.getElementById('clickCount').textContent = '0';
+            document.getElementById('joyFill').style.width = '0%';
+            document.getElementById('joyPercent').textContent = '0%';
+            document.getElementById('milestone').textContent = '';
+        }
+
+        // ==== MEMORY GAME ====
+        const memoryEmojis = ['🦆', '🦆', '💖', '💖', '🌈', '🌈', '🎵', '🎵', '🌟', '🌟', '🍀', '🍀', '🌊', '🌊', '☀️', '☀️'];
+        let memoryCards = [];
+        let flipped = [];
+        let matched = [];
+        let memoryStartTime = 0;
+        let memoryTimer = null;
+        let seconds = 0;
+
+        function shuffleMemory() {
+            memoryCards = [...memoryEmojis].sort(() => Math.random() - 0.5);
+        }
+
+        function renderMemoryGrid() {
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+            memoryCards.forEach((emoji, idx) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                if (matched.includes(idx)) card.classList.add('matched');
+                if (flipped.includes(idx)) {
+                    card.textContent = emoji;
+                } else {
+                    card.textContent = '?';
+                }
+                card.onclick = () => flipMemoryCard(idx);
+                grid.appendChild(card);
+            });
+        }
+
+        function flipMemoryCard(idx) {
+            if (flipped.includes(idx) || matched.includes(idx) || flipped.length === 2) return;
+
+            if (flipped.length === 0) {
+                memoryStartTime = Date.now();
+                if (memoryTimer) clearInterval(memoryTimer);
+                memoryTimer = setInterval(() => {
+                    seconds = Math.floor((Date.now() - memoryStartTime) / 1000);
+                    document.getElementById('memoryTime').textContent = seconds + 's';
+                }, 1000);
+            }
+
+            flipped.push(idx);
+            renderMemoryGrid();
+
+            if (flipped.length === 2) {
+                const [first, second] = flipped;
+                if (memoryCards[first] === memoryCards[second]) {
+                    matched.push(first, second);
+                    flipped = [];
+                    renderMemoryGrid();
+                    createHeartParticles(event);
+
+                    if (matched.length === memoryCards.length) {
+                        clearInterval(memoryTimer);
+                        document.getElementById('memoryStats').textContent = `You won! Time: ${seconds}s`;
+                    }
+                } else {
+                    setTimeout(() => {
+                        flipped = [];
+                        renderMemoryGrid();
+                    }, 1000);
+                }
+            }
+        }
+
+        function resetMemoryGame() {
+            clearInterval(memoryTimer);
+            seconds = 0;
+            document.getElementById('memoryTime').textContent = '0s';
+            document.getElementById('memoryStats').textContent = '';
+            shuffleMemory();
+            flipped = [];
+            matched = [];
+            renderMemoryGrid();
+        }
+
+        // ==== HEART PARTICLES ====
+        function createHeartParticles(event) {
+            for (let i = 0; i < 5; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-particle';
+                heart.innerHTML = '💖';
+                heart.style.left = (event.clientX + (Math.random() - 0.5) * 50) + 'px';
+                heart.style.top = (event.clientY + (Math.random() - 0.5) * 50) + 'px';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 2000);
+            }
+        }
+
+        // ==== INITIALIZE ====
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize all features
+            displayAllJokes();
+            displayAllAffirmations();
+            displayAllQuotes();
+            displayAllPrompts();
+            loadWellness();
+            loadPlaylists();
+            loadFeed();
+            shuffleMemory();
+            renderMemoryGrid();
+            renderBucketList();
+
+            if (startDate) {
+                document.getElementById('startDate').value = startDate;
+                updateDaysCounter();
+                updateBadges();
+            }
+
+            // Set up tab switching
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                    document.getElementById(btn.getAttribute('onclick').replace('switchTab(', '').replace(')', '').replace(/['"]/g, '')).classList.add('active');
+                });
+            });
+
+            // Set interval for days counter
+            setInterval(updateDaysCounter, 60000);
+        });
+    </script>
+</body>
+</html>
+</body>
+</html>
